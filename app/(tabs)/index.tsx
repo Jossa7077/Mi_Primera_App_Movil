@@ -20,7 +20,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* TÍTULO */}
-        <Text style={styles.titulo}>Ramen Beta</Text>
+        <Text style={styles.titulo}>Ramen Beta 🍜</Text>
         <Text style={styles.subtitulo}>
           Elige tu ramen favorito
         </Text>
