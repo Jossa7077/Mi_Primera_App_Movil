@@ -1,478 +1,201 @@
-import React, { useState } from 'react';
-
 import {
-  ActivityIndicator,
-  Image,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
   Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
-  Switch,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+
 
 export default function HomeScreen() {
-  const [nombre, setNombre] = useState('');
-  const [ramen, setRamen] = useState('');
-  const [cantidad, setCantidad] = useState('');
-  const [paraLlevar, setParaLlevar] = useState(false);
-
-  const [resultado, setResultado] = useState('');
-  const [procesando, setProcesando] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const seleccionarRamen = (tipoRamen: string) => {
-    setRamen(tipoRamen);
-  };
-
-  const realizarPedido = () => {
-    if (
-      nombre.trim() === '' ||
-      ramen.trim() === '' ||
-      cantidad.trim() === ''
-    ) {
-      setResultado('Debes completar todos los campos.');
-      setModalVisible(true);
-      return;
-    }
-
-    setProcesando(true);
-    setResultado('');
-
-    setTimeout(() => {
-      setProcesando(false);
-
-      setResultado(
-        `Cliente: ${nombre}
-Ramen: ${ramen}
-Cantidad: ${cantidad}
-Para llevar: ${paraLlevar ? 'Sí' : 'No'}`
-      );
-
-      setModalVisible(true);
-    }, 1200);
-  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="#FFFDF8"
-      />
 
-      <KeyboardAvoidingView
-        style={styles.pantalla}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contenido}
+    >
+
+      <View style={styles.header}>
+
+        <Text style={styles.logo}>
+          Coffee App
+        </Text>
+
+        <Text style={styles.titulo}>
+          Tu café, tu momento
+        </Text>
+
+        <Text style={styles.descripcion}>
+          Descubre nuestros cafés preparados especialmente para ti.
+        </Text>
+
+      </View>
+
+
+      <Text style={styles.seccionTitulo}>
+        Recomendados
+      </Text>
+
+
+      <View style={styles.tarjeta}>
+
+        <Text style={styles.productoTitulo}>
+          Espresso
+        </Text>
+
+        <Text style={styles.productoDescripcion}>
+          Café intenso y tradicional
+        </Text>
+
+        <Text style={styles.precio}>
+          $6.000
+        </Text>
+
+      </View>
+
+
+      <View style={styles.tarjeta}>
+
+        <Text style={styles.productoTitulo}>
+          Cappuccino
+        </Text>
+
+        <Text style={styles.productoDescripcion}>
+          Espresso, leche y espuma
+        </Text>
+
+        <Text style={styles.precio}>
+          $8.500
+        </Text>
+
+      </View>
+
+
+      <Pressable
+  style={styles.boton}
+  onPress={() => router.push('/menu')}
+>
+  <Text style={styles.botonTexto}>
+    Ver menú completo
+  </Text>
+</Pressable>
+
+
+      <Pressable
+        style={styles.botonSecundario}
+        onPress={() => router.push('/contacto')}
       >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          <Text style={styles.titulo}>Ramen Beta 🍜</Text>
 
-          <Text style={styles.subtitulo}>
-            Elige tu ramen favorito
-          </Text>
+        <Text style={styles.botonSecundarioTexto}>
+          Contacto
+        </Text>
 
-          <Text style={styles.label}>Nombre</Text>
+      </Pressable>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Escribe tu nombre"
-            value={nombre}
-            onChangeText={setNombre}
-          />
+    </ScrollView>
 
-          <View
-            style={[
-              styles.producto,
-              ramen === 'Ramen Shoyu' &&
-                styles.productoSeleccionado,
-            ]}
-          >
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1591814468924-caf88d1232e1?w=800',
-              }}
-              style={styles.imagen}
-              resizeMode="cover"
-            />
-
-            <Text style={styles.nombreRamen}>
-              Ramen Shoyu
-            </Text>
-
-            <Pressable
-              style={[
-                styles.boton,
-                ramen === 'Ramen Shoyu' &&
-                  styles.botonSeleccionado,
-              ]}
-              onPress={() =>
-                seleccionarRamen('Ramen Shoyu')
-              }
-            >
-              <Text style={styles.textoBoton}>
-                {ramen === 'Ramen Shoyu'
-                  ? 'Seleccionado ✓'
-                  : 'Elegir Ramen'}
-              </Text>
-            </Pressable>
-          </View>
-          
-
-          <View
-            style={[
-              styles.producto,
-              ramen === 'Ramen Tonkotsu' &&
-                styles.productoSeleccionado,
-            ]}
-          >
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800',
-              }}
-              style={styles.imagen}
-              resizeMode="cover"
-            />
-
-            <Text style={styles.nombreRamen}>
-              Ramen Tonkotsu
-            </Text>
-
-            <Pressable
-              style={[
-                styles.boton,
-                ramen === 'Ramen Tonkotsu' &&
-                  styles.botonSeleccionado,
-              ]}
-              onPress={() =>
-                seleccionarRamen('Ramen Tonkotsu')
-              }
-            >
-              <Text style={styles.textoBoton}>
-                {ramen === 'Ramen Tonkotsu'
-                  ? 'Seleccionado ✓'
-                  : 'Elegir Ramen'}
-              </Text>
-            </Pressable>
-          </View>
-
-          <Text style={styles.label}>
-            Ramen seleccionado
-          </Text>
-
-          <View style={styles.seleccion}>
-            <Text style={styles.textoSeleccion}>
-              {ramen || 'Ningún ramen seleccionado'}
-            </Text>
-          </View>
-
-          <Text style={styles.label}>Cantidad</Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="Ejemplo: 2"
-            keyboardType="numeric"
-            value={cantidad}
-            onChangeText={setCantidad}
-          />
-
-          <View style={styles.switchContainer}>
-            <View>
-              <Text style={styles.labelSwitch}>
-                ¿Pedido para llevar?
-              </Text>
-
-              <Text style={styles.textoSecundario}>
-                {paraLlevar
-                  ? 'Sí, para llevar'
-                  : 'No, comer aquí'}
-              </Text>
-            </View>
-
-            <Switch
-              value={paraLlevar}
-              onValueChange={setParaLlevar}
-              trackColor={{
-                false: '#D3D3D3',
-                true: '#FFB66F',
-              }}
-              thumbColor={
-                paraLlevar ? '#FF7A00' : '#F4F3F4'
-              }
-            />
-          </View>
-
-          <Pressable
-            style={[
-              styles.botonPedido,
-              procesando && styles.botonDeshabilitado,
-            ]}
-            onPress={realizarPedido}
-            disabled={procesando}
-          >
-            {procesando ? (
-              <View style={styles.cargando}>
-                <ActivityIndicator
-                  color="#FFFFFF"
-                  size="small"
-                />
-
-                <Text style={styles.textoBoton}>
-                  Procesando pedido...
-                </Text>
-              </View>
-            ) : (
-              <Text style={styles.textoBotonPedido}>
-                Realizar Pedido 🍜
-              </Text>
-            )}
-          </Pressable>
-        </ScrollView>
-      </KeyboardAvoidingView>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalFondo}>
-          <View style={styles.modalContenido}>
-            <Text style={styles.modalTitulo}>
-              {resultado.includes(
-                'Debes completar todos los campos'
-              )
-                ? '⚠️ Atención'
-                : '✅ Pedido realizado'}
-            </Text>
-
-            <Text style={styles.modalTexto}>
-              {resultado}
-            </Text>
-
-            <Pressable
-              style={styles.botonCerrar}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.textoBoton}>
-                Cerrar
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
   );
+
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#FFFDF8',
-  },
 
-  pantalla: {
-    flex: 1,
-  },
+const styles = StyleSheet.create({
 
   container: {
-    padding: 20,
-    paddingBottom: 50,
+    flex: 1,
+    backgroundColor: '#F7F3EF',
+  },
+
+  contenido: {
+    padding: 25,
+  },
+
+  header: {
+    marginTop: 20,
+    marginBottom: 30,
+  },
+
+  logo: {
+    fontSize: 16,
+    color: '#8D6E63',
+    fontWeight: 'bold',
   },
 
   titulo: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#FF7A00',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-
-  subtitulo: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 25,
-  },
-
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-    marginTop: 10,
-  },
-
-  input: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#DDD',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 16,
-    marginBottom: 20,
-  },
-
-  producto: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 15,
-    padding: 10,
-    marginBottom: 25,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-
-  productoSeleccionado: {
-    borderColor: '#FF7A00',
-  },
-
-  imagen: {
-    width: '100%',
-    height: 220,
-    borderRadius: 12,
-  },
-
-  nombreRamen: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 12,
-    textAlign: 'center',
-  },
-
-  boton: {
-    backgroundColor: '#FF7A00',
-    paddingVertical: 13,
-    borderRadius: 10,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-
-  botonSeleccionado: {
-    backgroundColor: '#4CAF50',
-  },
-
-  textoBoton: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-
-  seleccion: {
-    backgroundColor: '#FFF3E8',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#FFCC9A',
-  },
-
-  textoSeleccion: {
-    color: '#FF7A00',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-
-  switchContainer: {
-    backgroundColor: '#FFFFFF',
-    padding: 15,
-    borderRadius: 12,
-    marginTop: 10,
-    marginBottom: 25,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    elevation: 2,
-  },
-
-  labelSwitch: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-
-  textoSecundario: {
-    color: '#777',
-    marginTop: 3,
-  },
-
-  botonPedido: {
-    backgroundColor: '#FF7A00',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
+    color: '#3E2723',
     marginTop: 5,
   },
 
-  botonDeshabilitado: {
-    opacity: 0.7,
+  descripcion: {
+    fontSize: 15,
+    color: '#795548',
+    marginTop: 10,
+    lineHeight: 22,
   },
 
-  textoBotonPedido: {
-    color: '#FFFFFF',
-    fontSize: 18,
+  seccionTitulo: {
+    fontSize: 21,
     fontWeight: 'bold',
+    color: '#3E2723',
+    marginBottom: 15,
   },
 
-  cargando: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-
-  modalFondo: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 25,
-  },
-
-  modalContenido: {
-    width: '100%',
+  tarjeta: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 25,
+    padding: 20,
+    borderRadius: 18,
+    marginBottom: 15,
   },
 
-  modalTitulo: {
-    fontSize: 22,
+  productoTitulo: {
+    fontSize: 19,
     fontWeight: 'bold',
-    color: '#FF7A00',
-    textAlign: 'center',
-    marginBottom: 20,
+    color: '#4E342E',
   },
 
-  modalTexto: {
-    fontSize: 16,
-    color: '#333',
-    lineHeight: 26,
-    marginBottom: 25,
+  productoDescripcion: {
+    color: '#8D6E63',
+    marginTop: 5,
   },
 
-  botonCerrar: {
-    backgroundColor: '#FF7A00',
-    paddingVertical: 13,
-    borderRadius: 10,
+  precio: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#6D4C41',
+    marginTop: 10,
+  },
+
+  boton: {
+    backgroundColor: '#6D4C41',
+    paddingVertical: 16,
+    borderRadius: 15,
     alignItems: 'center',
+    marginTop: 15,
   },
+
+  botonTexto: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  botonSecundario: {
+    borderWidth: 1,
+    borderColor: '#6D4C41',
+    paddingVertical: 16,
+    borderRadius: 15,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+
+  botonSecundarioTexto: {
+    color: '#6D4C41',
+    fontWeight: 'bold',
+  },
+
 });
