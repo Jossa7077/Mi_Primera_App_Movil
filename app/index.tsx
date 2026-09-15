@@ -1,11 +1,11 @@
 import { useRouter } from "expo-router"; // Se usa para navegar entre pantallas
 import {
-    Image,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 function OpcionMenu({
@@ -134,39 +134,28 @@ export default function Inicio() {
         onPress={() => router.push("/formulario")}
       />
 
-      <OpcionMenu
-        icono="🕷️"
-        titulo="Productos"
-        descripcion="Explora nuestra colección de productos."
-        onPress={() => router.push("/imagenes")}
-      />
+      <View style={styles.botonesHorizontales}> 
+        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} 
+        onPress={() => router.push("/imagenes")} > 
+        <Text style={styles.botonIcono}>🕷️</Text> 
+        <Text style={styles.botonTitulo}>Productos</Text> 
+        <Text style={styles.botonDescripcion}> Explora nuestra colección de productos. </Text> 
+        </Pressable> 
+        
+        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} 
+        onPress={() => router.push("/contacto")} > 
+        <Text style={styles.botonIcono}>📍</Text> 
+        <Text style={styles.botonTitulo}>Contacto</Text> 
+        <Text style={styles.botonDescripcion}> Consulta la información de Spider Store. </Text> 
+        </Pressable> 
 
-      <OpcionMenu
-        icono="📍"
-        titulo="Contacto"
-        descripcion="Consulta la información de Spider Store."
-        onPress={() => router.push("/contacto")}
-      />
-
-      {/* RECOMENDACIÓN */}
-      <View style={styles.destacado}>
-        <View style={styles.destacadoIcono}>
-          <Text style={styles.destacadoEmoji}>
-            🕸️
-          </Text>
+        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} > 
+        <Text style={styles.botonIcono}>🕸️</Text> 
+        <Text style={styles.botonDescripcion}>Producto Destacado</Text>  
+        </Pressable> 
         </View>
 
-        <View style={styles.destacadoInfo}>
-          <Text style={styles.destacadoTitulo}>
-            Producto destacado
-          </Text>
-
-          <Text style={styles.destacadoTexto}>
-            Descubre nuestra colección de artículos
-            inspirados en Spider-Man.
-          </Text>
-        </View>
-      </View>
+     
 
       <Text style={styles.footer}>
         Spider Store · Desarrollo Móvil
@@ -182,6 +171,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     padding: 18,
   },
+
+  botonesHorizontales: { 
+    flexDirection: "row", 
+    gap: 12, }, 
+
+    botonPequeno: { 
+      flex: 1, 
+       backgroundColor: "#ffffff", 
+        borderRadius: 15, 
+         padding: 15, 
+          alignItems: "center", 
+           elevation: 3, }, 
+
+      botonPresionado: { 
+        opacity: 0.6, 
+         transform: [{ scale: 0.97 }], 
+      }, 
+      
+      botonIcono: { 
+        fontSize: 30, 
+         marginBottom: 8, 
+      }, 
+      
+      botonTitulo: { 
+         fontSize: 18, 
+          fontWeight: "bold", 
+           marginBottom: 5, }, 
+            
+           
+      botonDescripcion: { 
+        fontSize: 12, 
+        textAlign: "center", 
+      },
 
   hero: {
     height: 280,
