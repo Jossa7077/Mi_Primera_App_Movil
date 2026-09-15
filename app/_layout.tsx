@@ -1,41 +1,45 @@
-import { Stack } from 'expo-router';
+import { Stack } from "expo-router";
 
-export default function RootLayout() {
-
+export default function Layout() {
   return (
-
-    <Stack>
-
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#D71920",
+        },
+        headerTintColor: "#ffffff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        contentStyle: {
+          backgroundColor: "#F5F5F5",
+        },
+      }}
+    >
       <Stack.Screen
         name="index"
-        options={{
-          title: 'Coffee App',
-        }}
+        options={{ title: "SpiderStore" }}
       />
 
       <Stack.Screen
-        name="menu"
-        options={{
-          title: 'Nuestro menú',
-        }}
+        name="formulario"
+        options={{ title: "Registro" }}
+      />
+
+      <Stack.Screen
+        name="resultado"
+        options={{ title: "Datos registrados" }}
+      />
+
+      <Stack.Screen
+        name="imagenes"
+        options={{ title: "Productos" }}
       />
 
       <Stack.Screen
         name="contacto"
-        options={{
-          title: 'Contacto',
-        }}
+        options={{ title: "Contacto" }}
       />
-
-      <Stack.Screen
-        name="producto/[id]"
-        options={{
-          title: 'Detalle del café',
-        }}
-      />
-
     </Stack>
-
   );
-
 }
