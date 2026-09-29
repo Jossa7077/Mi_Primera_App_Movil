@@ -193,7 +193,7 @@ export default function Inicio() {
       {/* NUEVA OPCIÓN: REGISTROS */}
       <OpcionMenu
         icono="👥"
-        titulo="SpiderLovers de Corazón"
+        titulo="SpiderFans"
         descripcion="Consulta los clientes registrados y sus productos favoritos."
         onPress={() => router.push("/registros")}
       />
