@@ -1,16 +1,22 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 export default function Resultado() {
   const router = useRouter();
 
-  const { nombre, correo, telefono, ciudad } =
-    useLocalSearchParams();
+  const {
+    id,
+    nombre,
+    correo,
+    telefono,
+    ciudad,
+    productoFavorito,
+  } = useLocalSearchParams();
 
   return (
     <View style={styles.container}>
@@ -23,17 +29,53 @@ export default function Resultado() {
       </Text>
 
       <View style={styles.card}>
-        <Text style={styles.label}>Nombre</Text>
-        <Text style={styles.valor}>{nombre}</Text>
+        <Text style={styles.label}>
+          ID del registro
+        </Text>
 
-        <Text style={styles.label}>Correo</Text>
-        <Text style={styles.valor}>{correo}</Text>
+        <Text style={styles.valor}>
+          {id}
+        </Text>
 
-        <Text style={styles.label}>Teléfono</Text>
-        <Text style={styles.valor}>{telefono}</Text>
+        <Text style={styles.label}>
+          Nombre
+        </Text>
 
-        <Text style={styles.label}>Ciudad</Text>
-        <Text style={styles.valor}>{ciudad}</Text>
+        <Text style={styles.valor}>
+          {nombre}
+        </Text>
+
+        <Text style={styles.label}>
+          Correo
+        </Text>
+
+        <Text style={styles.valor}>
+          {correo}
+        </Text>
+
+        <Text style={styles.label}>
+          Teléfono
+        </Text>
+
+        <Text style={styles.valor}>
+          {telefono}
+        </Text>
+
+        <Text style={styles.label}>
+          Ciudad
+        </Text>
+
+        <Text style={styles.valor}>
+          {ciudad}
+        </Text>
+
+        <Text style={styles.label}>
+          Producto favorito
+        </Text>
+
+        <Text style={styles.valor}>
+          🕸️ {productoFavorito}
+        </Text>
       </View>
 
       <Pressable
@@ -41,7 +83,16 @@ export default function Resultado() {
         onPress={() => router.replace("/")}
       >
         <Text style={styles.botonTexto}>
-          Volver a Spider Store
+          Volver al inicio
+        </Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.botonSecundario}
+        onPress={() => router.push("/registros")}
+      >
+        <Text style={styles.botonSecundarioTexto}>
+          Ver clientes registrados
         </Text>
       </Pressable>
     </View>
@@ -61,6 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#D71920",
     textAlign: "center",
+    marginBottom: 5,
   },
 
   subtitulo: {
@@ -98,10 +150,24 @@ const styles = StyleSheet.create({
     padding: 14,
     borderRadius: 13,
     alignItems: "center",
+    marginTop: 5,
   },
 
   botonTexto: {
-    color: "white",
+    color: "#FFFFFF",
+    fontWeight: "bold",
+  },
+
+  botonSecundario: {
+    backgroundColor: "#174EA6",
+    padding: 14,
+    borderRadius: 13,
+    alignItems: "center",
+    marginTop: 10,
+  },
+
+  botonSecundarioTexto: {
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
 });

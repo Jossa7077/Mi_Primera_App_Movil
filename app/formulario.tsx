@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-
 import {
+  ActivityIndicator,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-
 import { supabase } from "../lib/supabase";
 
 export default function Formulario() {
@@ -19,52 +18,48 @@ export default function Formulario() {
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [ciudad, setCiudad] = useState("");
+  const [productoFavorito, setProductoFavorito] = useState("");
 
-  // Estado para controlar el proceso de guardado
   const [guardando, setGuardando] = useState(false);
 
-  // Función para validar el correo electrónico
   const validarCorreo = (email: string) => {
     const expresion = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     return expresion.test(email);
   };
 
-  // Función para guardar los datos en Supabase
   const guardar = async () => {
-    // Validar campos vacíos
     if (
       !nombre.trim() ||
       !correo.trim() ||
       !telefono.trim() ||
-      !ciudad.trim()
+      !ciudad.trim() ||
+      !productoFavorito.trim()
     ) {
       alert("Todos los campos son obligatorios");
       return;
     }
 
-    // Validar correo
     if (!validarCorreo(correo)) {
       alert("Ingrese un correo electrónico válido");
       return;
     }
 
-    // Validar teléfono
     if (isNaN(Number(telefono))) {
-      alert("El teléfono debe contener solamente números");
+      alert(
+        "El teléfono debe contener solamente números"
+      );
       return;
     }
 
-    // Validar longitud mínima del teléfono
     if (telefono.length < 7) {
       alert("Ingrese un número de teléfono válido");
       return;
     }
 
     try {
-      // Activar indicador de carga
       setGuardando(true);
 
-      // Guardar registro en Supabase
       const { data, error } = await supabase
         .from("clientes_spider_store")
         .insert([
@@ -73,67 +68,85 @@ export default function Formulario() {
             correo: correo.trim(),
             telefono: telefono.trim(),
             ciudad: ciudad.trim(),
+            producto_favorito:
+              productoFavorito.trim(),
           },
         ])
         .select();
 
-      // Comprobar si Supabase devolvió un error
       if (error) {
         console.log("ERROR SUPABASE:", error);
 
-        alert("Error al guardar: " + error.message);
+        alert(
+          "Error al guardar: " +
+            error.message
+        );
+
         return;
       }
 
-      // Obtener el registro que acaba de crear Supabase
       const registro = data?.[0];
 
       if (!registro) {
-        alert("No fue posible recuperar el registro guardado");
+        alert(
+          "No fue posible recuperar el registro guardado"
+        );
+
         return;
       }
 
-      console.log("REGISTRO GUARDADO:", registro);
+      console.log(
+        "REGISTRO GUARDADO:",
+        registro
+      );
 
-      // Mostrar mensaje de éxito
       alert("Registro guardado correctamente");
 
-      // Limpiar los campos
       setNombre("");
       setCorreo("");
       setTelefono("");
       setCiudad("");
+      setProductoFavorito("");
 
-      // Ir a la pantalla de resultado
       router.push({
         pathname: "/resultado",
         params: {
+          id: String(registro.id),
           nombre: registro.nombre,
           correo: registro.correo,
           telefono: registro.telefono,
           ciudad: registro.ciudad,
+          productoFavorito:
+            registro.producto_favorito,
         },
       });
     } catch (error) {
       console.log("ERROR:", error);
 
-      alert("Ocurrió un error inesperado al guardar los datos");
+      alert(
+        "Ocurrió un error inesperado al guardar los datos"
+      );
     } finally {
-      // Desactivar indicador de carga
       setGuardando(false);
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.titulo}>Registro Spider Store 🕷️</Text>
+    <ScrollView
+      contentContainerStyle={styles.container}
+    >
+      <Text style={styles.titulo}>
+        Registro Spider Store 🕷️
+      </Text>
 
       <Text style={styles.subtitulo}>
         Registra tus datos para continuar.
       </Text>
 
       <View style={styles.card}>
-        <Text style={styles.label}>Nombre</Text>
+        <Text style={styles.label}>
+          Nombre
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -142,7 +155,9 @@ export default function Formulario() {
           onChangeText={setNombre}
         />
 
-        <Text style={styles.label}>Correo</Text>
+        <Text style={styles.label}>
+          Correo
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -153,7 +168,9 @@ export default function Formulario() {
           onChangeText={setCorreo}
         />
 
-        <Text style={styles.label}>Teléfono</Text>
+        <Text style={styles.label}>
+          Teléfono
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -163,7 +180,9 @@ export default function Formulario() {
           onChangeText={setTelefono}
         />
 
-        <Text style={styles.label}>Ciudad</Text>
+        <Text style={styles.label}>
+          Ciudad
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -172,17 +191,33 @@ export default function Formulario() {
           onChangeText={setCiudad}
         />
 
+        <Text style={styles.label}>
+          Producto favorito
+        </Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Ej: Figura de Spider-Man"
+          value={productoFavorito}
+          onChangeText={setProductoFavorito}
+        />
+
         <Pressable
           style={[
             styles.boton,
-            guardando && styles.botonDeshabilitado,
+            guardando &&
+              styles.botonDeshabilitado,
           ]}
           onPress={guardar}
           disabled={guardando}
         >
-          <Text style={styles.botonTexto}>
-            {guardando ? "Guardando..." : "Registrarme"}
-          </Text>
+          {guardando ? (
+            <ActivityIndicator color="#FFFFFF" />
+          ) : (
+            <Text style={styles.botonTexto}>
+              Guardar en Supabase
+            </Text>
+          )}
         </Pressable>
       </View>
     </ScrollView>
@@ -247,7 +282,7 @@ const styles = StyleSheet.create({
   },
 
   botonTexto: {
-    color: "white",
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
 });

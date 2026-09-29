@@ -1,4 +1,5 @@
-import { useRouter } from "expo-router"; // Se usa para navegar entre pantallas
+import { useRouter } from "expo-router";
+
 import {
   Image,
   Pressable,
@@ -8,27 +9,33 @@ import {
   View,
 } from "react-native";
 
+type OpcionMenuProps = {
+  icono: string;
+  titulo: string;
+  descripcion: string;
+  onPress: () => void;
+};
+
 function OpcionMenu({
   icono,
   titulo,
   descripcion,
   onPress,
-}: {
-  icono: string;
-  titulo: string;
-  descripcion: string;
-  onPress: () => void;
-}) {
+}: OpcionMenuProps) {
   return (
-    <Pressable style={styles.card} onPress={onPress}>
-      <View style={styles.iconoCaja}>
-        <Text style={styles.icono}>{icono}</Text>
-      </View>
+    <Pressable
+      style={({ pressed }) => [
+        styles.opcion,
+        pressed && styles.opcionPresionada,
+      ]}
+      onPress={onPress}
+    >
+      <Text style={styles.opcionIcono}>{icono}</Text>
 
-      <View style={styles.cardInfo}>
-        <Text style={styles.cardTitulo}>{titulo}</Text>
+      <View style={styles.opcionContenido}>
+        <Text style={styles.opcionTitulo}>{titulo}</Text>
 
-        <Text style={styles.cardDescripcion}>
+        <Text style={styles.opcionDescripcion}>
           {descripcion}
         </Text>
       </View>
@@ -42,56 +49,53 @@ export default function Inicio() {
   const router = useRouter();
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contenido}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Imagen principal */}
+      <Image
+        source={{
+          uri: "https://media.revistagq.com/photos/5d5d19b10ef2260008f5cdb7/16:9/w_1920,h_1080,c_limit/mejor%20spider-man%20pelicula%20sony%20marvel.jpg",
+        }}
+        style={styles.imagenPrincipal}
+      />
 
-      {/* PORTADA PRINCIPAL */}
-      <View style={styles.hero}>
-        <Image
-          source={{
-            uri: "https://media.revistagq.com/photos/5d5d19b10ef2260008f5cdb7/16:9/w_1920,h_1080,c_limit/mejor%20spider-man%20pelicula%20sony%20marvel.jpg",
-          }}
-          style={styles.imagenHero}
-        />
+      {/* Encabezado */}
+      <View style={styles.encabezado}>
+        <Text style={styles.marca}>
+          SPIDER STORE
+        </Text>
 
-        <View style={styles.overlay}>
-          <Text style={styles.etiqueta}>
-            SPIDER STORE
-          </Text>
+        <Text style={styles.titulo}>
+          Spider-Man
+        </Text>
 
-          <Text style={styles.titulo}>
-            Spider-Man
-          </Text>
-
-          <Text style={styles.subtitulo}>
-            Encuentra productos, accesorios y artículos
-            inspirados en el héroe arácnido.
-          </Text>
-        </View>
+        <Text style={styles.subtitulo}>
+          Encuentra productos, accesorios y artículos
+          inspirados en el héroe arácnido.
+        </Text>
       </View>
 
-      {/* BIENVENIDA */}
+      {/* Saludo */}
       <View style={styles.saludoBox}>
-        <View>
-          <Text style={styles.saludoTitulo}>
-            ¡Hola, héroe! 🕷️
-          </Text>
+        <Text style={styles.saludo}>
+          ¡Hola, héroe! 🕷️
+        </Text>
 
-          <Text style={styles.saludoTexto}>
-            ¿Qué deseas explorar hoy?
-          </Text>
-        </View>
-
-        <View style={styles.avatar}>
-          <Text style={styles.avatarTexto}>
-            🕷️
-          </Text>
-        </View>
+        <Text style={styles.saludoTexto}>
+          Explora nuestra tienda y descubre todo lo
+          relacionado con Spider-Man.
+        </Text>
       </View>
 
-      {/* RESUMEN */}
+      {/* Resumen */}
       <View style={styles.resumen}>
         <View style={styles.resumenItem}>
-          <Text style={styles.resumenNumero}>3</Text>
+          <Text style={styles.resumenNumero}>
+            4
+          </Text>
 
           <Text style={styles.resumenTexto}>
             Secciones
@@ -114,315 +118,287 @@ export default function Inicio() {
 
         <View style={styles.resumenItem}>
           <Text style={styles.resumenNumero}>
-            Expo
+            📱
           </Text>
 
           <Text style={styles.resumenTexto}>
-            Router
+            Expo Router
           </Text>
         </View>
       </View>
 
-      <Text style={styles.seccionTitulo}>
+      {/* Título de opciones */}
+      <Text style={styles.tituloSeccion}>
         Explorar Spider Store
       </Text>
 
+      {/* Registro */}
       <OpcionMenu
         icono="📝"
         titulo="Registrarme"
-        descripcion="Registra tus datos para conocer nuestra tienda."
+        descripcion="Registra tus datos y tu producto favorito."
         onPress={() => router.push("/formulario")}
       />
 
-      <View style={styles.botonesHorizontales}> 
-        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} 
-        onPress={() => router.push("/imagenes")} > 
-        <Text style={styles.botonIcono}>🕷️</Text> 
-        <Text style={styles.botonTitulo}>Productos</Text> 
-        <Text style={styles.botonDescripcion}> Explora nuestra colección de productos. </Text> 
-        </Pressable> 
-        
-        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} 
-        onPress={() => router.push("/contacto")} > 
-        <Text style={styles.botonIcono}>📍</Text> 
-        <Text style={styles.botonTitulo}>Contacto</Text> 
-        <Text style={styles.botonDescripcion}> Consulta la información de Spider Store. </Text> 
-        </Pressable> 
+      {/* Botones horizontales */}
+      <View style={styles.botonesHorizontales}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.botonPequeno,
+            pressed && styles.botonPresionado,
+          ]}
+          onPress={() => router.push("/imagenes")}
+        >
+          <Text style={styles.botonIcono}>
+            🛍️
+          </Text>
 
-        <Pressable style={({ pressed }) => [ styles.botonPequeno, pressed && styles.botonPresionado, ]} > 
-        <Text style={styles.botonIcono}>🕸️</Text> 
-        <Text style={styles.botonDescripcion}>Producto Destacado</Text>  
-        </Pressable> 
-        </View>
+          <Text style={styles.botonTexto}>
+            Productos
+          </Text>
+        </Pressable>
 
-     
+        <Pressable
+          style={({ pressed }) => [
+            styles.botonPequeno,
+            pressed && styles.botonPresionado,
+          ]}
+          onPress={() => router.push("/contacto")}
+        >
+          <Text style={styles.botonIcono}>
+            📞
+          </Text>
 
+          <Text style={styles.botonTexto}>
+            Contacto
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.botonPequeno,
+            pressed && styles.botonPresionado,
+          ]}
+        >
+          <Text style={styles.botonIcono}>
+            🕸️
+          </Text>
+
+          <Text style={styles.botonTexto}>
+            Destacado
+          </Text>
+        </Pressable>
+      </View>
+
+      {/* NUEVA OPCIÓN: REGISTROS */}
+      <OpcionMenu
+        icono="👥"
+        titulo="SpiderLovers de Corazón"
+        descripcion="Consulta los clientes registrados y sus productos favoritos."
+        onPress={() => router.push("/registros")}
+      />
+
+      {/* Pie de página */}
       <Text style={styles.footer}>
         Spider Store · Desarrollo Móvil
       </Text>
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: "#F5F5F5",
-    padding: 18,
   },
 
-  botonesHorizontales: { 
-    flexDirection: "row", 
-    gap: 12, }, 
-
-    botonPequeno: { 
-      flex: 1, 
-       backgroundColor: "#ffffff", 
-        borderRadius: 15, 
-         padding: 15, 
-          alignItems: "center", 
-           elevation: 3, }, 
-
-      botonPresionado: { 
-        opacity: 0.6, 
-         transform: [{ scale: 0.97 }], 
-      }, 
-      
-      botonIcono: { 
-        fontSize: 30, 
-         marginBottom: 8, 
-      }, 
-      
-      botonTitulo: { 
-         fontSize: 18, 
-          fontWeight: "bold", 
-           marginBottom: 5, }, 
-            
-           
-      botonDescripcion: { 
-        fontSize: 12, 
-        textAlign: "center", 
-      },
-
-  hero: {
-    height: 280,
-    borderRadius: 28,
-    overflow: "hidden",
-    marginBottom: 20,
-    elevation: 6,
+  contenido: {
+    paddingBottom: 30,
   },
 
-  imagenHero: {
+  imagenPrincipal: {
     width: "100%",
-    height: "100%",
+    height: 210,
   },
 
-  overlay: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    padding: 22,
-    backgroundColor: "rgba(0, 0, 0, 0.78)",
+  encabezado: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 
-  etiqueta: {
-    color: "#FFCDD2",
-    fontSize: 11,
+  marca: {
+    fontSize: 14,
     fontWeight: "bold",
-    letterSpacing: 1.8,
-    marginBottom: 6,
+    color: "#174EA6",
+    letterSpacing: 2,
+    marginBottom: 5,
   },
 
   titulo: {
-    color: "#FFFFFF",
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
-    marginBottom: 6,
+    color: "#D71920",
+    marginBottom: 8,
   },
 
   subtitulo: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 23,
+    color: "#555555",
   },
 
   saludoBox: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
+    marginHorizontal: 20,
+    marginTop: 20,
     padding: 18,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-    elevation: 2,
+    borderRadius: 18,
+    backgroundColor: "#FFFFFF",
     borderWidth: 1,
     borderColor: "#DDDDDD",
   },
 
-  saludoTitulo: {
-    fontSize: 18,
+  saludo: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#D71920",
+    color: "#174EA6",
+    marginBottom: 6,
   },
 
   saludoTexto: {
-    marginTop: 3,
-    color: "#555555",
     fontSize: 14,
-  },
-
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#D71920",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  avatarTexto: {
-    fontSize: 24,
+    color: "#555555",
+    lineHeight: 20,
   },
 
   resumen: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingVertical: 16,
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    marginBottom: 24,
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: "#DDDDDD",
+    justifyContent: "space-around",
+    marginHorizontal: 20,
+    marginTop: 18,
+    paddingVertical: 15,
+    backgroundColor: "#D71920",
+    borderRadius: 18,
   },
 
   resumenItem: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
   },
 
   resumenNumero: {
-    color: "#D71920",
-    fontSize: 18,
+    fontSize: 21,
     fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 3,
   },
 
   resumenTexto: {
-    color: "#555555",
     fontSize: 12,
-    marginTop: 3,
+    color: "#FFFFFF",
   },
 
   separador: {
     width: 1,
     height: 35,
-    backgroundColor: "#CCCCCC",
+    backgroundColor: "#FFFFFF",
+    opacity: 0.5,
   },
 
-  seccionTitulo: {
-    fontSize: 21,
+  tituloSeccion: {
+    fontSize: 22,
     fontWeight: "bold",
     color: "#222222",
-    marginBottom: 14,
+    marginHorizontal: 20,
+    marginTop: 25,
+    marginBottom: 12,
   },
 
-  card: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 14,
+  opcion: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 20,
+    marginBottom: 14,
+    padding: 17,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: "#DDDDDD",
     elevation: 2,
   },
 
-  iconoCaja: {
-    width: 56,
-    height: 56,
-    borderRadius: 18,
-    backgroundColor: "#D71920",
-    justifyContent: "center",
-    alignItems: "center",
+  opcionPresionada: {
+    opacity: 0.7,
+  },
+
+  opcionIcono: {
+    fontSize: 30,
     marginRight: 14,
   },
 
-  icono: {
-    fontSize: 25,
-  },
-
-  cardInfo: {
+  opcionContenido: {
     flex: 1,
   },
 
-  cardTitulo: {
+  opcionTitulo: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#222222",
+    color: "#D71920",
     marginBottom: 4,
   },
 
-  cardDescripcion: {
-    color: "#666666",
+  opcionDescripcion: {
     fontSize: 13,
+    color: "#666666",
     lineHeight: 18,
   },
 
   flecha: {
     fontSize: 30,
-    color: "#D71920",
+    color: "#174EA6",
     marginLeft: 8,
   },
 
-  destacado: {
-    backgroundColor: "#E3F2FD",
-    borderRadius: 22,
-    padding: 18,
+  botonesHorizontales: {
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: 6,
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    marginBottom: 5,
   },
 
-  destacadoIcono: {
-    width: 52,
-    height: 52,
-    borderRadius: 17,
-    backgroundColor: "#D71920",
+  botonPequeno: {
+    backgroundColor: "#FFFFFF",
+    width: "31%",
+    minHeight: 85,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center",
-    marginRight: 14,
+    padding: 8,
+    elevation: 2,
   },
 
-  destacadoEmoji: {
+  botonPresionado: {
+    opacity: 0.7,
+  },
+
+  botonIcono: {
     fontSize: 25,
+    marginBottom: 5,
   },
 
-  destacadoInfo: {
-    flex: 1,
-  },
-
-  destacadoTitulo: {
-    fontSize: 16,
+  botonTexto: {
+    fontSize: 12,
     fontWeight: "bold",
     color: "#174EA6",
-    marginBottom: 4,
-  },
-
-  destacadoTexto: {
-    color: "#555555",
-    fontSize: 13,
-    lineHeight: 19,
+    textAlign: "center",
   },
 
   footer: {
     textAlign: "center",
     color: "#777777",
     fontSize: 12,
-    marginTop: 24,
-    marginBottom: 12,
+    marginTop: 20,
   },
 });

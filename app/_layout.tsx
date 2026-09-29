@@ -40,6 +40,11 @@ export default function Layout() {
         name="contacto"
         options={{ title: "Contacto" }}
       />
+
+      <Stack.Screen
+        name="registros"
+        options={{ title: "Clientes Spider Store" }}
+      />
     </Stack>
   );
 }
