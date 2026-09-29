@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Mi_Primera_App",
+    "name": "SpiderStore",
     "slug": "Mi_Primera_App",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,6 +12,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.jossa77.miprimerapp",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -43,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "80c8c2c5-7245-4163-a255-19906a2d343a"
+      }
     }
   }
 }
